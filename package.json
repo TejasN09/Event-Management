@@ -1,17 +1,22 @@
 {
-  "name": "event-mangement",
+  "name": "event-management",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Web Dev project related to managing the event :)",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TejasN09/Event-Management.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TejasN09/Event-Management/issues"
+  },
+  "homepage": "https://github.com/TejasN09/Event-Management#readme",
   "dependencies": {
-    "body-parser": "^1.20.1",
-    "express": "^4.18.2",
     "mongoose": "^6.7.5"
   }
 }
