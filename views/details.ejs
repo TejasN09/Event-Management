@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        <h1>
+            <%= eventTitle %>
+        </h1>
+        <h2>
+            <%= eventDes %>
+        </h2>
+        <h3>
+            <%= dateInfo %>
+        </h3>
+        <h4>
+            <%= eventImg %>
+        </h4>
+        <div>
+            <% items.forEach(function(image) { %>
+                <div>
+                    <div>
+                        <img src="data:image/<%=image.img.contentType%>;base64,
+                         <%=image.img.data.toString('base64')%>">
+                        <div>
+                            <h5>
+                                <%= image.name %>
+                            </h5>
+                            <p>
+                                <%= image.desc %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+    </form>
+</body>
+
+</html>
