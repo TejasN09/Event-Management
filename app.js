@@ -77,9 +77,11 @@ app.post("/login", async (req, res) => {
   const name = req.body.username;
   const password = req.body.password;
   //find the user with the username in db
-  const user = await User.findOne({ username: name, password: password });
+  const user = await User.findOne({ username: name });
+  const hashedpassword = await bcrypt.compare(password, user.password);
   try {
-    if (user == null) {
+    if (user == null || hashedpassword != true) {
+      //if no user found or password is incorrect
       res
         .status(404)
         .send({ message: "Invalid Username or Password. Try Again!" });
@@ -126,13 +128,40 @@ app.post("/register", async (req, res) => {
 });
 
 //host-event route
-app.post("/addevent", (req, res) => {
+app.post("/addevent", async (req, res) => {
   const eventData = new Event({
     eventname: req.body.eventname,
     eventdescription: req.body.eventdescription,
     eventimages: [],
     host: req.body.host, //"6395db2843b4a770a41c980e" elon id
   });
+  eventData.save((err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send({ message: "Internal Server error" });
+      //   redirect to signup again
+    } else {
+      res.status(200).send(eventData);
+      console.log("done");
+    }
+  });
+});
+
+//update event
+// a request "/foo/4" to route /foo/:id has URL path params { id: 4 }
+app.post("/editevent/:id", async (req, res) => {
+  const id = req.params.id;
+  // const { id } = req.params;
+  //   const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
+  const eventData = await Event.findByIdAndUpdate(id, {
+    $set: {
+      eventname: req.body.eventname,
+      eventdescription: req.body.eventdescription,
+      eventimages: [],
+      host: req.body.host,
+    },
+  });
+  console.log(eventData);
   eventData.save((err) => {
     if (err) {
       console.log(err);
