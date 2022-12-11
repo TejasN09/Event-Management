@@ -34,42 +34,39 @@ mongoose
 
 //helper function to create user
 async function createUser(username, email, password) {
-    const user = new User({
-        username,
-        email,
-        password,
-    });
+  const user = new User({
+    username,
+    email,
+    password,
+  });
 
-    const result = await user.save();
-    console.log(result);
+  // const result = await user.save();
+  // console.log(result);
 }
 
-// createUser("alex","abc@gmail.com","alex123")
-// "63922bc1417810dc125a793b" abc user id
+// createUser("elon","elon@gmail.com","elon123",)
+//("6395db2843b4a770a41c980e") elon user id
 //helper function to create events
-async function createEvent(eventname, eventdescription, eventimages,host) {
-    const event = new Event({
-        eventname,
-        eventdescription,
-        eventimages,
-        host
-    });
+async function createEvent(eventname, eventdescription, eventimages, host) {
+  const event = new Event({
+    eventname,
+    eventdescription,
+    eventimages,
+    host,
+  });
 
-    const result = await event.save();
-    console.log(result);
+  // const result = await event.save();
+  // console.log(result);
 }
-// createEvent("dance","clasical dance traditional Songs",[],"63922f92b41ebbe734577d13")
+// createEvent("chess","Chess Classic matches, 3 rounds",[],"6395db2843b4a770a41c980e")
 
-// list all events 
-async function listEvents() {
-    const events = await Event
-        .find()
-        .populate('host')
-        .select('');
-    console.log(events);
-}
+// list all events
+// async function listEvents() {
+//   const events = await Event.find().populate("host").select("");
+//   console.log(events);
+// }
 
-listEvents();
+// listEvents();
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
@@ -132,9 +129,9 @@ app.post("/register", async (req, res) => {
 app.post("/addevent", (req, res) => {
   const eventData = new Event({
     eventname: req.body.eventname,
-    eventdescription: req.body.des,
+    eventdescription: req.body.eventdescription,
     eventimages: [],
-    host: req.body.host,
+    host: req.body.host, //"6395db2843b4a770a41c980e" elon id
   });
   eventData.save((err) => {
     if (err) {
@@ -147,7 +144,6 @@ app.post("/addevent", (req, res) => {
     }
   });
 });
-
 
 //running port
 app.listen(3000, () => {
