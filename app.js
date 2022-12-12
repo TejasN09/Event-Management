@@ -174,6 +174,19 @@ app.post("/editevent/:id", async (req, res) => {
   });
 });
 
+//delete route
+app.post("/deleteevent/:id", async (req,res)=>{
+    const id=req.params.id;
+    Event.deleteOne({_id:id},function (err,found){  
+        if(err){
+          console.log("err");
+        }
+        else {
+            console.log("deleted");
+        }
+    })
+})
+
 //running port
 app.listen(3000, () => {
   console.log("sever connected to port 3000");
