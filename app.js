@@ -179,6 +179,7 @@ app.post("/editevent/:id", async (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 //firebase
 const memoStorage = multer.memoryStorage();
 const upload = multer({ memoStorage });
@@ -207,6 +208,20 @@ app.post("/addimage", upload.single("image"), async (req, res) => {
 
 //get route 
 
+=======
+//delete route
+app.post("/deleteevent/:id", async (req,res)=>{
+    const id=req.params.id;
+    Event.deleteOne({_id:id},function (err,found){  
+        if(err){
+          console.log("err");
+        }
+        else {
+            console.log("deleted");
+        }
+    })
+})
+>>>>>>> 04c7aa5b14392cbbb562f4b4c4df2fe9efdeef4b
 
 //running port
 app.listen(3000, () => {
