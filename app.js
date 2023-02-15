@@ -5,6 +5,11 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const bcrypt = require("bcrypt");
 const app = express();
+const multer = require("multer");
+
+const { storage } = require("./firebase.js");
+// import { getStorage, ref, uploadBytes } from "firebase/storage";
+const { getStorage, ref, uploadBytes,getDownloadURL } = require("firebase/storage");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -173,6 +178,35 @@ app.post("/editevent/:id", async (req, res) => {
     }
   });
 });
+
+//firebase
+const memoStorage = multer.memoryStorage();
+const upload = multer({ memoStorage });
+
+//post route demo
+app.post("/addimage", upload.single("image"), async (req, res) => {
+  const file = req.file;
+  // console.log(file);
+  const storageRef = ref(storage, "images/" + file.originalname);
+  console.log(file);
+  const metatype = { contentType: file.mimetype, name: file.originalname };
+  try {
+    await uploadBytes(storageRef, file.buffer, metatype).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+      getDownloadURL(snapshot.ref).then((downloadURL) => {
+        console.log('File available at', downloadURL);
+      });
+      res.status(200).send({ message: "sent" });
+    });
+  } catch (error) {
+    console.log(error);
+    uploadTask.cancel(); //cancle previous half upload
+    res.status(401).send({ message: "error" });
+  }
+});
+
+//get route 
+
 
 //running port
 app.listen(3000, () => {
